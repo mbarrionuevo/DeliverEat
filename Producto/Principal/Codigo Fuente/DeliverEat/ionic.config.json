@@ -1,0 +1,7 @@
+{
+  "name": "DeliverEat",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
