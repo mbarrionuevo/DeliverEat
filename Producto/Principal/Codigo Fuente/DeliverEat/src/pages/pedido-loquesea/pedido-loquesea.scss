@@ -1,0 +1,30 @@
+page-pedido-loquesea {
+    .bigger-button{
+        font-size: 1.5em;
+    }
+
+    ion-input,
+    & ion-textarea{
+        border-bottom: solid 1px gray;
+    }
+
+    .invalid{
+        border-bottom: solid 1px red;
+    }
+
+    .map {
+        .scroll {
+            height: 300px;
+        }
+      
+        #map {
+            width: 100%;
+            height: 300px;
+        }
+      }
+
+      .swiper-slide {
+        overflow-y: scroll;
+        display: block;
+    }
+}

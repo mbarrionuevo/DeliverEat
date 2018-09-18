@@ -1,0 +1,33 @@
+<!--
+  Generated template for the PedidoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Nuevo pedido</ion-title>
+
+  </ion-navbar>
+
+
+</ion-header>
+
+
+<ion-content padding>
+  <h2 ion-text text-center color="dark">¿Qué clase pedido querés hacer?</h2>
+<ion-list>
+  <ion-item>
+      <button ion-button full disabled color="danger" (click)="iniciarPedidoComercioAdherido()">Pedido a comercio adherido</button>
+      <h3 ion-text text-wrap>Hacé un pedido a un comercio adherido, seleccionando lo que necesitas de una amplia lista de productos.</h3>
+  </ion-item>
+ <ion-item>
+    <button ion-button full color="danger" (click)="iniciarPedidoLoQueSea()">Pedido de lo que sea</button>
+    <h3 ion-text text-wrap color="dark">Decinos lo que querés, ¡y nosotros te lo buscamos!</h3>
+
+ </ion-item>
+  
+</ion-list>
+
+</ion-content>

@@ -1,0 +1,176 @@
+<!--
+  Generated template for the PedidoLoqueseaPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Nuevo pedido</ion-title>
+    <ion-buttons end ion-button>
+      <button color="light" class="bigger-button" ion-button>
+        <ion-icon name="cart"></ion-icon>
+        <ion-badge color="light" item-end>{{pedido.productos.length}}</ion-badge>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-slides>
+
+
+    <!-- #region Paso1 -->
+    <ion-slide class="swiper-slide">
+
+
+      <ion-card>
+        <ion-card-header>Paso 1: Agregá Productos</ion-card-header>
+        <img [src]="producto.foto ? producto.foto : 'assets/imgs/sin_imagen.jpg'">
+        <ion-fab right top>
+          <button ion-fab color="dark" (click)="tomarFoto()">
+            <ion-icon name="camera"></ion-icon>
+          </button>
+        </ion-fab>
+        <form [formGroup]="pasoUno">
+          <ion-item>
+            <ion-label stacked text-wrap>¿Qué debería buscar el cadete?</ion-label>
+            <ion-textarea type="text" [class.invalid]="!pasoUno.controls.descripcion.valid" formControlName="descripcion"
+              [(ngModel)]="producto.descripcion"></ion-textarea>
+          </ion-item>
+
+          <ion-item >
+            <ion-label stacked text-wrap>¿Cuál es la dirección del lugar? (*)</ion-label>
+            <ion-input *ngIf="direccionPorTexto" type="text" [class.invalid]="!pasoUno.controls.direccionComercio.valid" formControlName="direccionComercio"
+              [(ngModel)]="producto.direccionComercio"></ion-input>
+              <ion-input type="text" *ngIf="!direccionPorTexto" formControlName="coordenadas" value="Punto en mapa."disabled></ion-input>
+            <button *ngIf="direccionPorTexto" ion-button item-end icon-only (click)="mostrarMapa()" clear color="dark">
+              <ion-icon item-end name="pin"></ion-icon>
+            </button>
+            <ion-icon item-end name="close" *ngIf="!direccionPorTexto" (click)="eliminarCoordenadas()"></ion-icon>
+          </ion-item>
+
+
+          <button class="bigger-button" ion-button clear icon-only color="danger" type="submit" [disabled]="!pasoUno.valid"
+            (click)="agregarProducto()">
+            <ion-icon name="add"></ion-icon>
+          </button>
+        </form>
+      </ion-card>
+
+      <!-- <ion-card>
+        <form [formGroup]="pasoUno">
+
+          <ion-card-header>Paso 1: Agregá productos</ion-card-header>
+          <ion-card-content>
+            <ion-list>
+              <ion-item>
+                <ion-label stacked text-wrap>¿Qué debería buscar el cadete? (*)</ion-label>
+                <ion-textarea type="text" formControlName="descripcion" [(ngModel)]="producto.descripcion"></ion-textarea>
+              </ion-item>
+              <ion-item>
+                <button ion-item icon-end>Agregá una foto descriptiva<ion-icon name="camera"></ion-icon></button>
+              </ion-item>
+            </ion-list>
+
+          </ion-card-content>
+
+        </form>
+
+
+      </ion-card> -->
+      <!-- <button class="bigger-button" ion-button clear icon-only color="danger" type="submit" [disabled]="!pasoUno.valid">
+        <ion-icon name="add"></ion-icon>
+      </button> -->
+    </ion-slide>
+    <!-- #endregion -->
+
+    <!-- #region Paso2 -->
+    <ion-slide>
+
+      <ion-card>
+        <ion-card-header>Paso 2: Indicanos dónde llevartelo/s</ion-card-header>
+        <form [formGroup]="pasoDos">
+          <ion-item>
+            <ion-label stacked text-wrap>Tu dirección: (*)</ion-label>
+            <ion-textarea [class.invalid]="!pasoDos.controls.domicilio.valid" type="text" formControlName="domicilio"
+              [(ngModel)]="pedido.domicilio"></ion-textarea>
+          </ion-item>
+          <ion-item>
+            <ion-label stacked text-wrap>¿Cuándo? (*)</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label stacked text-wrap>Lo antes posible</ion-label>
+            <ion-radio value="fechaActivada" [checked]="!fechaActivada" (ionSelect)="switchFecha()">Lo antes posible</ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-input type="date" [class.invalid]="!pasoDos.controls.fechaEntrega.valid" [(ngModel)]="pedido.fechaEntrega"
+              formControlName="fechaEntrega" [disabled]="!fechaActivada"></ion-input>
+          </ion-item>
+        </form>
+      </ion-card>
+    </ion-slide>
+    <!-- #endregion -->
+
+    <!-- #region Paso3 -->
+    <ion-slide>
+      <ion-card>
+        <ion-card-header>Paso 3: Pagá</ion-card-header>
+        <form [formGroup]="pasoTres">
+          <ion-item>
+            <ion-label stacked text-wrap>Forma de pago: (*)</ion-label>
+            <ion-select [class.invalid]="!pasoTres.controls.formaDePago.valid" formControlName="formaDePago"
+              [(ngModel)]="pedido.formaDePago">
+              <ion-option value="FormasDePago.Contado" (ionSelect)="construirFormularioPaso3($event)">Contado</ion-option>
+              <ion-option value="FormasDePago.VISA" (ionSelect)="construirFormularioPaso3($event)">VISA</ion-option>
+            </ion-select>
+          </ion-item>
+          <div *ngIf="pedido.formaDePago === 'FormasDePago.Contado'">
+            <ion-item>
+              <ion-label stacked text-wrap>¿Con cuánto vas a pagar? (*)</ion-label>
+              <ion-input [class.invalid]="!pasoTres.controls.pagaCon.valid" type="number" formControlName="pagaCon"
+                [(ngModel)]="pedido.pagaCon"></ion-input>
+            </ion-item>
+          </div>
+          <div *ngIf="pedido.formaDePago === 'FormasDePago.VISA'">
+            <ion-item>
+              <ion-label stacked text-wrap>Número de Tarjeta (*)</ion-label>
+              <ion-input type="number" [class.invalid]="!pasoTres.controls.nroTarjeta.valid" formControlName="nroTarjeta"
+                [(ngModel)]="pedido.nroTarjeta"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label stacked text-wrap>Titular (*)</ion-label>
+              <ion-input type="text" [class.invalid]="!pasoTres.controls.titular.valid" formControlName="titular"
+                [(ngModel)]="pedido.titular"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label stacked text-wrap>Vencimiento (*) (Ej.: 02-25)</ion-label>
+              <ion-input type="text" formControlName="vencimiento" [class.invalid]="!pasoTres.controls.vencimiento.valid"
+                [(ngModel)]="pedido.vencimiento"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label stacked text-wrap>Código de Seguridad (*)</ion-label>
+              <ion-input [class.invalid]="!pasoTres.controls.codigoSeguridad.valid" type="number" formControlName="codigoSeguridad"
+                [(ngModel)]="pedido.codigoSeguridad"></ion-input>
+            </ion-item>
+          </div>
+        </form>
+      </ion-card>
+    </ion-slide>
+    <!-- #endregion -->
+  </ion-slides>
+</ion-content>
+<ion-footer>
+  <ion-toolbar text-center>
+    <button ion-button icon-start (click)="navegar(false)" color="light" *ngIf="!esPrimerPaso()">
+      <ion-icon name="arrow-back"></ion-icon>Volver
+    </button>
+    <button ion-button icon-end color="light" (click)="esUltimoPaso() ? listo() : navegar()">{{esUltimoPaso() ? 'Listo'
+      : 'Ir
+      siguiente paso'}}<ion-icon name="arrow-forward"></ion-icon></button>
+  </ion-toolbar>
+</ion-footer>

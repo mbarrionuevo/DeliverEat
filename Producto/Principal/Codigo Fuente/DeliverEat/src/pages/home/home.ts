@@ -11,4 +11,8 @@ export class HomePage {
 
   }
 
+  comenzarPedido(){
+    this.navCtrl.push('PedidoPage');
+  }
+
 }

@@ -14,3 +14,44 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+
+.toolbar-background {
+    background-color: red;
+  }
+
+  
+.side-menu-panel {
+  background-color: color($colors, primary) !important;
+  &__userinfo {
+    background-color: color($colors, danger);
+    img {
+      width: 20%;
+      margin: auto;
+      border-radius: 50%;
+    }
+    h2 {
+      font-size: 1.5em;
+      color: color($colors, dark);
+      font-weight: 300;
+    }
+    h3 {
+      font-size: 1em;
+      color: color($colors, dark);
+      font-style: oblique;
+      font-weight: 300;
+    }
+  }
+  &__menulinks {
+    background-color: transparent;
+    & button {
+      background-color: transparent;
+      color: color($colors, dark);
+      padding: 0 16px;
+
+      & ion-icon {
+        line-height: 1.4em;
+      }
+    }
+  }
+}
